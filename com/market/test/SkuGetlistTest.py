@@ -19,7 +19,7 @@ class SkuGetlistTest(unittest.TestCase):
         token = BasicApi.login()#获取登录token
         url = BasicApi.basic_url()#获取url
 
-        excel = xlrd.open_workbook('/Users/zhouxin/PycharmProjects/test/testcase.xlsx')
+        excel = xlrd.open_workbook('/Users/zhouxin/PycharmProjects/testinterface/testcase.xlsx')
         sheet = excel.sheets()[0]
         nrows = sheet.nrows
 

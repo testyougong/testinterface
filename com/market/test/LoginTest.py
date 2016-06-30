@@ -20,7 +20,7 @@ class Login_Test(unittest.TestCase):
         BasicApi = Basic()
         url = BasicApi.basic_url()  # 获取url
 
-        excel = xlrd.open_workbook('/Users/zhouxin/PycharmProjects/test/testcase.xlsx')
+        excel = xlrd.open_workbook('/Users/zhouxin/PycharmProjects/testinterface/testcase.xlsx')
         sheet = excel.sheets()[1]
         nrows = sheet.nrows
 
