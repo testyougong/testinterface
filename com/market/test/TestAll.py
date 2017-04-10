@@ -1,11 +1,12 @@
 # -*- coding: UTF-8 -*-
 import os
 import unittest
-
 import HTMLTestRunner
 
-from com.market.test.LoginTest import Login_Test
-from com.market.test.SkuGetlistTest import SkuGetlistTest
+from com.market.test.CartCalpricev2 import TestOrderCase1
+from com.market.test.OrderPrepare import TestOrderCase2
+from com.market.test.OrderInit import TestOrderCase3
+
 
 
 class TestAll(unittest.TestCase):
@@ -15,19 +16,20 @@ class TestAll(unittest.TestCase):
     def tearDown(self):
         pass
 
-        @staticmethod
-        def suite():
-            test = unittest.TestSuite()
-            test.addTest(Login_Test("test_login"))
-            test.addTest(SkuGetlistTest("test_skugetlist"))
 
+    def suite(self):
+        suite = unittest.TestSuite()
+        suite.addTest(TestOrderCase1("test_CartCalpricev2"))
+        suite.addTest(TestOrderCase2("test_OrderPrepare"))
+        suite.addTest(TestOrderCase3("test_OrderInit"))
 
-            filename = "/Users/zhouxin/Desktop/result1.html"
-            fp = file(filename, 'wb')
-            runner = HTMLTestRunner.HTMLTestRunner(stream=fp,title="testing result",description="trying")
-            runner.run(suite())
-            fp.close()
-            os.system(filename)
+        filename = "/Users/zhouxin/Desktop/result1.html"
+        fp = file(filename, 'wb')
+        runner = HTMLTestRunner.HTMLTestRunner(stream=fp, title="testing result", description="trying")
+        runner.run(suite)
+        fp.close()
+        os.system(filename)
 
 if __name__=='__main__':
-    unittest.TextTestRunner(verbosity=2).run(TestAll.suite())
+    suite = unittest.TestLoader().loadTestsFromTestCase(TestAll.suite())
+    unittest.TextTestRunner(verbosity=2).run(suite)
