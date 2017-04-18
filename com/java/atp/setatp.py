@@ -6,7 +6,7 @@ flag = True
 sku_id = raw_input("请输入链商商品码:")
 number = int(raw_input('请输入需要修改的库存量:'))
 while (flag):
-    DC = str(raw_input("请输入DC\n"))
+    DC = str(raw_input("请输入DC:"))
     if DC.upper() =='DC10':
         string = 'atp:inventoryLogic:1000:{0}'.format(sku_id,number)
         key = "1:DC10"

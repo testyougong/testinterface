@@ -8,47 +8,62 @@ reload(sys)
 sys.setdefaultencoding('utf-8')
 
 wmSkuId = raw_input("请输入6位物美码:")
-depot = raw_input('请输入仓库号:')
-if depot.upper() == 'DC10' :
-    supplierId = 1
-    marketId = 1
-    zoneId = 1000
-elif depot.upper() == 'DC31' :
-    supplierId = 2
-    marketId = 1
-    zoneId = 1000
-elif depot.upper() == 'DC41' :
-    supplierId = 7
-    marketId = 1
-    zoneId = 1000
-elif depot.upper() == 'DC42' :
-    supplierId = 11
-    marketId = 1
-    zoneId = 1000
-elif depot.upper() == 'DC43' :
-    supplierId = 12
-    marketId = 1
-    zoneId = 1000
-elif depot.upper() == 'DC09' :
-    supplierId = 3
-    marketId = 1
-    zoneId = 1001
-elif depot.upper() == 'DC37' :
-    supplierId = 4
-    marketId = 1
-    zoneId = 1001
-elif depot.upper() == 'DC55':
-    supplierId = 5
-    marketId = 3
-    zoneId = 1002
-elif depot.upper() == 'DC59' :
-    supplierId = 6
-    marketId = 3
-    zoneId = 1002
-elif depot.upper() == 'DC59-1' :
-    supplierId = 10
-    marketId = 3
-    zoneId = 1002
+flag = True
+while flag:
+    depot = raw_input('请输入仓库号:')
+    if depot.upper() == 'DC10' :
+        supplierId = 1
+        marketId = 1
+        zoneId = 1000
+        flag = False
+    elif depot.upper() == 'DC31' :
+        supplierId = 2
+        marketId = 1
+        zoneId = 1000
+        flag = False
+    elif depot.upper() == 'DC41' :
+        supplierId = 7
+        marketId = 1
+        zoneId = 1000
+        flag = False
+    elif depot.upper() == 'DC42' :
+        supplierId = 11
+        marketId = 1
+        zoneId = 1000
+        flag = False
+    elif depot.upper() == 'DC43' :
+        supplierId = 12
+        marketId = 1
+        zoneId = 1000
+        flag = False
+    elif depot.upper() == 'DC09' :
+        supplierId = 3
+        marketId = 1
+        zoneId = 1001
+        flag = False
+    elif depot.upper() == 'DC37' :
+        supplierId = 4
+        marketId = 1
+        zoneId = 1001
+        flag = False
+    elif depot.upper() == 'DC55':
+        supplierId = 5
+        marketId = 3
+        zoneId = 1002
+        flag = False
+    elif depot.upper() == 'DC59' :
+        supplierId = 6
+        marketId = 3
+        zoneId = 1002
+        flag = False
+    elif depot.upper() == 'DC59-1' :
+        supplierId = 10
+        marketId = 3
+        zoneId = 1002
+        flag = False
+    else :
+        print 'DC不存在'
+        flag = True
 
 class createSku():
     def mis_url(self):
@@ -95,6 +110,9 @@ class createSku():
                 else :
                     print '添加异常'
                     print result.text
+        else :
+            print '物美库中无此商品'
+            return False
         conn.close()
 
     def createSkuPirce(self):
@@ -114,8 +132,8 @@ class createSku():
                     print '货主信息表插入数据成功'
             except:
                 # Rollback in case there is any error
-                print '货主信息表插入数据时出现错误，并已回滚'
                 conn.rollback()
+                print '货主信息表插入数据时出现错误，并已回滚'
         sql = "select * from wm_supply_price where code = {0} and market_id = {1} and depot = '{2}' and supplier_id = {3}".format(code,marketId,depot.upper(),supplierId)
         cursor.execute(sql)
         if cursor.rowcount == 1:
@@ -129,11 +147,11 @@ class createSku():
                     print '物美供货价表插入数据成功'
             except:
                 # Rollback in case there is any error
-                print '物美供货价表插入数据时出现错误，并已回滚'
                 conn.rollback()
+                print '物美供货价表插入数据时出现错误，并已回滚'
         conn.close()
 
-    def createLshSku(self):
+    def createMarketSku(self):
         host = self.mis_url()  # 获取host
         conn = MySQLdb.connect(host='192.168.60.59', port=5200, user='root', passwd='', db='lsh_market_dev',charset="utf8")
         cursor = conn.cursor(cursorclass=MySQLdb.cursors.DictCursor)
@@ -205,8 +223,12 @@ class createSku():
                 print '销售商品创建成功'
             else :
                 print result.text
+        conn.close()
 
 create = createSku()
-create.createWmSku()
-create.createSkuPirce()
-create.createLshSku()
+cws = create.createWmSku()
+if cws == False :
+    print '终止建品'
+else :
+    create.createSkuPirce()
+    create.createMarketSku()

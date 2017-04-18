@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import json
+import random
 
 import requests
 import unittest
@@ -28,7 +29,7 @@ class payment(unittest.TestCase):
         ws = wb.get_sheet(0)
         amount = 0
 
-        for i in range(1,2):
+        for i in range(1,nrows):
             host = 'http://testpay.wmdev2.lsh123.com'
             url = sheet.cell(i,4).value
             headers = {'Content-Type': 'application/json','api-version':'v1.0','random':'12345','platform':'web'}
@@ -44,13 +45,23 @@ class payment(unittest.TestCase):
                 ws.write(i,5,json.dumps(data))
                 try:
                     result = requests.post(host + url, headers = headers, data = json.dumps(data))
-                    print json.dumps(result.text)
+                    #print result.textel
+                except Exception, e:
+                    print Exception, ":", e
+            elif sheet.cell(i,2).value.encode("utf-8") == 'trade_id不存在':
+                tradeId = random.randint(100000000, 999999999)
+                data = json.loads(data)
+                data['trade_id'] = tradeId
+                ws.write(i, 5, json.dumps(data))
+                try:
+                    result = requests.post(host + url, headers = headers, data = json.dumps(data))
+                    #print result.text
                 except Exception, e:
                     print Exception, ":", e
             else :
                 try:
                     result = requests.post(host + url , headers = headers ,data = data)
-                    print json.dumps(result.text)
+                    #print result.text
                 except Exception,e:
                     print Exception,":",e
             responseTime = (result.elapsed.microseconds) / 1000
@@ -66,7 +77,7 @@ class payment(unittest.TestCase):
                 ws.write(i, 10, result.text)
             resultTime = time.strftime('%Y-%m-%d_%H:%M:%S')
 
-        a = amount / float(1)
+        a = amount / float(i)
         ws.write(i, 15, "%.2f" % a)
         print "case通过率为%.2f" % a
         wb.save('/Users/zhouxin/PycharmProjects/testinterface/paymentTestCase/paymentTestResult_' + resultTime + '.xls')
