@@ -111,7 +111,7 @@ class createSku():
                     print '添加异常'
                     print result.text
         else :
-            print '物美库中无此商品'
+            print '物美库中无此商品',
             return False
         conn.close()
 
@@ -225,10 +225,11 @@ class createSku():
                 print result.text
         conn.close()
 
-create = createSku()
-cws = create.createWmSku()
-if cws == False :
-    print '终止建品'
-else :
-    create.createSkuPirce()
-    create.createMarketSku()
+if __name__ ==  '__main__':
+    create = createSku()
+    cws = create.createWmSku()
+    if cws == False :
+        print '终止建品'
+    else :
+        create.createSkuPirce()
+        create.createMarketSku()
