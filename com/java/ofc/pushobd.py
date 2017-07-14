@@ -11,7 +11,7 @@ obd push发货接口调用
 # for i in range(1, len(sys.argv)):
 #     sequence = sys.argv[1]
 
-sequence = 6252741895043162112
+sequence = 6285291416297938944
 ofc = MySQLdb.connect(host='192.168.60.59', port=5200, user='root', passwd='', db='lsh_ofc', charset="utf8")
 ofcCursor = ofc.cursor(cursorclass=MySQLdb.cursors.DictCursor)
 sql = "select bill_details,out_order_id,system from ofc_bill where bill_type = 'ORDER' and order_id =" +str(sequence) +";"
@@ -32,13 +32,17 @@ if data:
         list = []
         system = i['system']
         if system =='WUMART_SAP' and zone_id ==str(1000):
-            DC = "DC10"
+            DC = "DC42"
+        elif system =='WUMART_SAP' and zone_id == str(2000):
+            DC = 'DC42'
         elif system =='WUMART_SAP' and zone_id == str(1001):
             DC = 'DC40'
         elif system =='WUMART_SAP' and zone_id == str(1002):
             DC = 'DC59'
         elif system =='WUMART_SAP_JISHOU' and zone_id == str(1000):
-            DC = 'DC10'
+            DC = 'DC42'
+        elif system =='WUMART_SAP_JISHOU' and zone_id == str(2000):
+            DC = 'DC42'
         elif system =='WUMART_SAP_JISHOU' and zone_id == str(1001):
             DC = 'DC40'
         elif system =='WUMART_SAP_JISHOU' and zone_id == str(1002):

@@ -18,7 +18,7 @@ token = BasicApi.login()  # 获取登录token
 host = BasicApi.basic_url()  # 获取host
 url = '/shopping/order/prepare'
 
-params = {'sku_list':'[{"sku_id":"110296","qty":2},{"sku_id":"101932","qty":2},{"sku_id":"101515","qty":1},{"sku_id":"100286","qty":5}]','tab':1,'use_coupon':1,'use_cash_coupon':1,'token':token}
+params = {'sku_list':'[{"sku_id":"106306","qty":1},{"sku_id":"106309","qty":1},{"sku_id":"107740","qty":1},{"sku_id":"120899","qty":1}]','tab':1,'use_coupon':1,'use_cash_coupon':1,'token':token}
 result = requests.post(host+url,params = params)
 orderInfo = result.json()['content']['order_info']
 #订单应付金额

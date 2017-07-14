@@ -3,12 +3,9 @@
 
 import sys,os
 import unittest
-import HTMLTestRunner
 import requests
 import json
-import xlrd
 import random
-import MySQLdb
 import time
 from xlutils.copy import copy
 

@@ -33,11 +33,11 @@ noInvoiceBlackMoneyList = []
 BasicApi = Basic()
 cookie = BasicApi.mis_login()
 host = BasicApi.mis_url()  # 获取host
-orderId = 6253476612856094720
+orderId = 6290364352297967616
 url = '/order/user/view?order_id='+str(orderId)+'&format=json'
-headers = {'Cookie':'MISSESSID=8hvc8gpn5fh5cserkqnnit7d54; zone_id=1000'}
+headers = {'Cookie':'MISSESSID=vgia9bgicv5k84fdrcqi1h10l5; zone_id=1000'}
 result = requests.get(host + url,headers=headers)
-
+print result.text
 receiptList = result.json()['content']['receipt_list']
 receiptListHeadInfo = receiptList[0]['head_info']
 headInfo = receiptListHeadInfo['ext']['head_info']

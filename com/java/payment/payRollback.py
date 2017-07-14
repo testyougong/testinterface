@@ -41,7 +41,7 @@ except:
 
 #更改tms中签收单状态为"未到账",变更为1
 try:
-    tmsCursor.execute("update order_receipt_head set status = 1,pay_status = 1 where order_id = {0}".format(order_code))
+    tmsCursor.execute("update order_receipt_head set status = 1,pay_status = 1 where order_id = {0} and is_valid = 1".format(order_code))
     tmsConn.commit()
     if (tmsCursor.rowcount != 1):
         print "签收单状态回滚失败",
@@ -55,7 +55,7 @@ except:
     tmsConn.rollback()
 
 #查询签收单号作为查询支付流水的trade_id
-tmsCursor.execute("select receipt_order_id from order_receipt_head where order_id = {0}".format(order_code))
+tmsCursor.execute("select receipt_order_id from order_receipt_head where order_id = {0} and is_valid = 1".format(order_code))
 receipt_order_id = tmsCursor.fetchall()[0]['receipt_order_id']
 #print receipt_order_id
 tmsCursor.close()

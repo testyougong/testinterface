@@ -65,7 +65,7 @@ itemCursor = item.cursor(cursorclass=MySQLdb.cursors.DictCursor)
 itemCursor.execute(sql)
 item.commit()
 
-sql2 = "select INVENTORY_QUANTITY as result  from INVENTORY_LOGIC where SKU_ID = '{0}' and DC='{1}';".format(sku_id,DC)
+sql2 = "select INVENTORY_QUANTITY as result from INVENTORY_LOGIC where SKU_ID = '{0}' and DC='{1}';".format(sku_id,DC)
 itemCursor.execute(sql2)
 
 result = itemCursor.fetchall()[0]['result']
